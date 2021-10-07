@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf_8 -*-
 
+import re
 from routers_auth_data import username, password, db_username, db_password, db_name, db_host
 from sql_functions import connect_to_db, set_or_update_mac
 from paramiko import SSHClient
@@ -58,6 +59,8 @@ def get_arp_data(host:str, username:str, password:str) -> int:
                 if "no such elements" not in mac or vlan:
                     # Обрезаем 'vlan' перед номером влан'а, убираем пробелы
                     vlan.replace("vlan","").strip()
+                    # Убираем из МАК адреса все символы крое цифр и латинских букв
+                    mac = re.sub("[^A-Za-z0-9]","",mac)
                     # Вызываем функцию которая присваивает мак адрес по номеру влана
                     set_or_update_mac(vlan, mac, connection)
                     mac_addresses.append(mac)
