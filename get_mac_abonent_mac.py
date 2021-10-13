@@ -55,7 +55,7 @@ def get_arp_data(host:str, username:str, password:str) -> int:
             vlan = ex_get_vlan.decode().strip()
             
             # Проверяем результат на пустоту
-            if mac !='' and vlan != '':
+            if mac !='' and and mac != "00:00:00:00:00:00" and vlan != '':
                 if "no such elements" not in mac or vlan:
                     # Обрезаем 'vlan' перед номером влан'а, убираем пробелы
                     vlan.replace("vlan","").strip()
